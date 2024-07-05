@@ -1,17 +1,60 @@
 import { useState } from "react";
 
-const FileUpload = () => {
-  const [fileContent, setFileContent] = useState(null);
-  const [error, setError] = useState<string>("");
-  const [analysisResults, setAnalysisResults] = useState(null);
+interface TopwithTitle {
+  title: string;
+  count: number;
+}
 
-  const onFileChange = (event) => {
-    const file = event.target.files[0];
+interface TopWithName {
+  name: string;
+  count: number;
+}
+
+interface VideoCount {
+  [key: string]: number;
+}
+
+interface TimeCount {
+  hour: number;
+  count: number;
+}
+
+interface Streak {
+  start: string;
+  end: string;
+  length: number;
+}
+
+interface Video {
+  header: string;
+  title: string;
+  titleUrl: string;
+  subtitles: { name: string; url: string }[];
+  time: string;
+  products: string[];
+  activityControls: string[];
+}
+
+interface AnalysisResults {
+  topVideos: TopwithTitle[];
+  activeTimes: TimeCount[];
+  favoriteChannels: TopWithName[];
+  streaks: Streak[];
+}
+
+const FileUpload = () => {
+  const [fileContent, setFileContent] = useState<Video[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [analysisResults, setAnalysisResults] =
+    useState<AnalysisResults | null>(null);
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
     if (file && file.type === "application/json") {
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = (event: ProgressEvent<FileReader>) => {
         try {
-          const json = JSON.parse(event.target.result);
+          const json = JSON.parse(event.target?.result as string);
           setFileContent(json);
           setError(null);
         } catch (err) {
@@ -22,20 +65,18 @@ const FileUpload = () => {
         setError("Failed to read file");
       };
       reader.readAsText(file);
+    } else {
+      setError("Please upload a valid JSON file");
     }
   };
 
-  const analyzeData = (data) => {
+  const analyzeData = (data: Video[]) => {
     const videos = data;
 
     const topVideos = getTopVideos(videos);
-    console.log(topVideos);
     const activeTimes = getMostActiveWatchTimes(videos);
-    console.log(activeTimes);
     const favoriteChannels = getFavoriteChannels(videos);
-    console.log(favoriteChannels);
     const streaks = getLongestStreaks(videos);
-    console.log(streaks);
 
     setAnalysisResults({
       topVideos,
@@ -45,11 +86,11 @@ const FileUpload = () => {
     });
   };
 
-  const getTopVideos = (videos) => {
-    const videoCounts = videos.reduce((acc, video) => {
+  const getTopVideos = (videos: Video[]) => {
+    const videoCounts = videos.reduce((acc: VideoCount, video) => {
       acc[video.title] = (acc[video.title] || 0) + 1;
       return acc;
-    }, {});
+    }, {} as VideoCount);
 
     const sortedVideos = Object.entries(videoCounts)
       .sort((a, b) => b[1] - a[1])
@@ -59,7 +100,7 @@ const FileUpload = () => {
     return sortedVideos;
   };
 
-  const getMostActiveWatchTimes = (videos) => {
+  const getMostActiveWatchTimes = (videos: Video[]) => {
     const hours = new Array(24).fill(0);
 
     videos.forEach((video) => {
@@ -70,26 +111,29 @@ const FileUpload = () => {
     return hours.map((count, hour) => ({ hour, count }));
   };
 
-  const getFavoriteChannels = (videos) => {
-    const channelCounts = videos.reduce((acc, video) => {
-      // Check if subtitles exist and are not empty before accessing
-      if (video.subtitles && video.subtitles.length > 0) {
-        const channel = video.subtitles[0].name;
-        acc[channel] = (acc[channel] || 0) + 1;
-      }
-      // return only the first 10 results
-      return acc;
-    }, {});
+  const getFavoriteChannels = (videos: Video[]) => {
+    const channelCounts = videos.reduce<Record<string, number>>(
+      (acc, video) => {
+        if (video.subtitles && video.subtitles.length > 0) {
+          const channel = video.subtitles[0].name;
+          acc[channel] = (acc[channel] || 0) + 1;
+        }
+        return acc;
+      },
+      {},
+    );
 
     const sortedChannels = Object.entries(channelCounts)
       .sort((a, b) => b[1] - a[1])
       .map(([name, count]) => ({ name, count }))
       .slice(0, 100);
 
+    console.log(sortedChannels);
+
     return sortedChannels;
   };
 
-  const getLongestStreaks = (videos) => {
+  const getLongestStreaks = (videos: Video[]) => {
     const dates = new Set(
       videos.map((video) => new Date(video.time).toISOString().split("T")[0]),
     );
@@ -191,7 +235,7 @@ const FileUpload = () => {
               <ul>
                 {analysisResults.streaks.map((streak, index) => (
                   <li key={index}>
-                    Streak {index + 1}: {streak.length} days
+                    {streak.length} days --- {streak.start} - {streak.end}{" "}
                   </li>
                 ))}
               </ul>
