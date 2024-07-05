@@ -1,53 +1,8 @@
 import { useState } from "react";
-
-interface TopVideos {
-  title: string;
-  count: number;
-  titleUrl: string | undefined;
-  thumbnailUrl: string;
-}
-
-interface FavoriteChannels {
-  name: string;
-  count: number;
-  channelUrl: string | undefined;
-}
-
-interface VideoCount {
-  [key: string]: number;
-}
-
-interface ChannelCount {
-  [key: string]: number;
-}
-
-interface TimeCount {
-  hour: number;
-  count: number;
-}
-
-interface Streak {
-  start: string;
-  end: string;
-  length: number;
-}
-
-interface Video {
-  header: string;
-  title: string;
-  titleUrl: string;
-  subtitles: { name: string; url: string }[];
-  time: string;
-  products: string[];
-  activityControls: string[];
-}
-
-interface AnalysisResults {
-  topVideos: TopVideos[];
-  activeTimes: TimeCount[];
-  favoriteChannels: FavoriteChannels[];
-  streaks: Streak[];
-}
+import { AnalysisResults, ChannelCount, Video, VideoCount } from "../types";
+import YouTubeUsageChart from "./HourlyUsageChart";
+import StreaksChart from "./StreaksChart";
+import StreaksChart2 from "./StreaksChart2";
 
 const FileUpload = () => {
   const [fileContent, setFileContent] = useState<Video[] | null>(null);
@@ -70,10 +25,12 @@ const FileUpload = () => {
       };
       reader.onerror = () => {
         setError("Failed to read file");
+        setFileContent(null);
       };
       reader.readAsText(file);
     } else {
       setError("Please upload a valid JSON file");
+      setFileContent(null);
     }
   };
 
@@ -244,6 +201,17 @@ const FileUpload = () => {
             <div>
               <h3>Analysis Results:</h3>
               <div>
+                <div style={{ width: "400px", height: "200px" }}>
+                  <YouTubeUsageChart analysisResults={analysisResults} />
+                </div>
+                {analysisResults && (
+                  <div>
+                    <h3>Longest Streaks:</h3>
+                    <StreaksChart streaks={analysisResults.streaks} />
+                    {/* Other components */}
+                    <StreaksChart2 />
+                  </div>
+                )}
                 <h4>Top Videos:</h4>
                 <ul>
                   {analysisResults.topVideos.map((video) => (
@@ -261,14 +229,6 @@ const FileUpload = () => {
                   ))}
                 </ul>
               </div>
-              <h4>Most Active Watch Times:</h4>
-              <ul>
-                {analysisResults.activeTimes.map((time) => (
-                  <li key={time.hour}>
-                    {time.hour}:00 - {time.count}
-                  </li>
-                ))}
-              </ul>
 
               <h4>Favorite Channels:</h4>
               <ul>
@@ -278,14 +238,6 @@ const FileUpload = () => {
                       <a href={channel.channelUrl}>{channel.name}</a>
                     )}
                     {!channel.channelUrl && channel.name} ({channel.count})
-                  </li>
-                ))}
-              </ul>
-              <h4>Longest Streaks:</h4>
-              <ul>
-                {analysisResults.streaks.map((streak, index) => (
-                  <li key={index}>
-                    {streak.length} days --- {streak.start} - {streak.end}{" "}
                   </li>
                 ))}
               </ul>
