@@ -1,6 +1,6 @@
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
-import { AnalysisResults } from "../types";
+import { AnalysisResults } from "../../types";
 
 interface YouTubeUsageChartProps {
   analysisResults: AnalysisResults;
