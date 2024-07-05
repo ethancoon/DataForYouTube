@@ -1,16 +1,23 @@
 import { useState } from "react";
 
-interface TopwithTitle {
+interface TopVideos {
   title: string;
   count: number;
+  titleUrl: string | undefined;
+  thumbnailUrl: string;
 }
 
-interface TopWithName {
+interface FavoriteChannels {
   name: string;
   count: number;
+  channelUrl: string | undefined;
 }
 
 interface VideoCount {
+  [key: string]: number;
+}
+
+interface ChannelCount {
   [key: string]: number;
 }
 
@@ -36,9 +43,9 @@ interface Video {
 }
 
 interface AnalysisResults {
-  topVideos: TopwithTitle[];
+  topVideos: TopVideos[];
   activeTimes: TimeCount[];
-  favoriteChannels: TopWithName[];
+  favoriteChannels: FavoriteChannels[];
   streaks: Streak[];
 }
 
@@ -87,17 +94,33 @@ const FileUpload = () => {
   };
 
   const getTopVideos = (videos: Video[]) => {
-    const videoCounts = videos.reduce((acc: VideoCount, video) => {
-      acc[video.title] = (acc[video.title] || 0) + 1;
-      return acc;
-    }, {} as VideoCount);
+    const videoCounts: VideoCount = {};
+    const result = [];
 
-    const sortedVideos = Object.entries(videoCounts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10)
-      .map(([title, count]) => ({ title, count }));
+    for (const video of videos) {
+      if (videoCounts[video.title]) {
+        videoCounts[video.title]++;
+      } else {
+        videoCounts[video.title] = 1;
+      }
+    }
 
-    return sortedVideos;
+    const sortable = [];
+    for (const title in videoCounts) {
+      sortable.push({ title, count: videoCounts[title] });
+    }
+    sortable.sort((a, b) => b.count - a.count);
+
+    const topVideos = sortable.slice(0, 100);
+
+    for (const { title, count } of topVideos) {
+      const videoUrl = videos.find((video) => video.title === title)?.titleUrl;
+      const videoId = videoUrl?.split("v=")[1];
+      const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      result.push({ title, count, titleUrl: videoUrl, thumbnailUrl });
+    }
+
+    return result;
   };
 
   const getMostActiveWatchTimes = (videos: Video[]) => {
@@ -112,25 +135,41 @@ const FileUpload = () => {
   };
 
   const getFavoriteChannels = (videos: Video[]) => {
-    const channelCounts = videos.reduce<Record<string, number>>(
-      (acc, video) => {
-        if (video.subtitles && video.subtitles.length > 0) {
-          const channel = video.subtitles[0].name;
-          acc[channel] = (acc[channel] || 0) + 1;
+    const channelCounts: ChannelCount = {};
+    const result = [];
+
+    for (const video of videos) {
+      if (video.subtitles && video.subtitles.length > 0) {
+        const channelName = video.subtitles[0].name;
+        if (channelCounts[channelName]) {
+          channelCounts[channelName]++;
+        } else {
+          channelCounts[channelName] = 1;
         }
-        return acc;
-      },
-      {},
-    );
+      }
+    }
 
-    const sortedChannels = Object.entries(channelCounts)
-      .sort((a, b) => b[1] - a[1])
-      .map(([name, count]) => ({ name, count }))
-      .slice(0, 100);
+    const sortable = [];
+    for (const name in channelCounts) {
+      sortable.push({ name, count: channelCounts[name] });
+    }
+    sortable.sort((a, b) => b.count - a.count);
 
-    console.log(sortedChannels);
+    const topChannels = sortable.slice(0, 100);
 
-    return sortedChannels;
+    for (const { name, count } of topChannels) {
+      const channelUrl = videos.find(
+        (video) =>
+          video.subtitles &&
+          video.subtitles.length > 0 &&
+          video.subtitles[0].name === name,
+      )?.subtitles[0].url;
+      // const channelId = channelUrl?.split("v=")[1];
+      // const avatarUrl = `https://img.youtube.com/vi/${channelId}/hqdefault.jpg`;
+      result.push({ name, channelUrl, count });
+    }
+
+    return result;
   };
 
   const getLongestStreaks = (videos: Video[]) => {
@@ -177,11 +216,11 @@ const FileUpload = () => {
     const topStreaks = streaks.sort((a, b) => b.length - a.length).slice(0, 3);
 
     // Example of printing the top 3 streaks
-    topStreaks.forEach((streak, index) => {
-      console.log(
-        `Streak ${index + 1}: Start Date: ${streak.start}, End Date: ${streak.end}, Length: ${streak.length} days`,
-      );
-    });
+    // topStreaks.forEach((streak, index) => {
+    //   console.log(
+    //     `Streak ${index + 1}: Start Date: ${streak.start}, End Date: ${streak.end}, Length: ${streak.length} days`,
+    //   );
+    // });
 
     return topStreaks;
   };
@@ -209,7 +248,15 @@ const FileUpload = () => {
                 <ul>
                   {analysisResults.topVideos.map((video) => (
                     <li key={video.title}>
-                      {video.title} ({video.count})
+                      <img
+                        src={video.thumbnailUrl}
+                        alt={video.title}
+                        width="120"
+                      />{" "}
+                      {video.titleUrl && (
+                        <a href={video.titleUrl}>{video.title}</a>
+                      )}
+                      {!video.titleUrl && video.title} ({video.count})
                     </li>
                   ))}
                 </ul>
@@ -227,7 +274,10 @@ const FileUpload = () => {
               <ul>
                 {analysisResults.favoriteChannels.map((channel) => (
                   <li key={channel.name}>
-                    {channel.name} ({channel.count})
+                    {channel.channelUrl && (
+                      <a href={channel.channelUrl}>{channel.name}</a>
+                    )}
+                    {!channel.channelUrl && channel.name} ({channel.count})
                   </li>
                 ))}
               </ul>
