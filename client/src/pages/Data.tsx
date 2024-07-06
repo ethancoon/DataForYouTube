@@ -11,11 +11,11 @@ import {
   getLongestStreaks,
 } from "../utils/dataProcessing";
 
-interface DataProps {
+interface ResultsProps {
   fileContent: Video[] | null;
 }
 
-const Data: React.FC<DataProps> = ({ fileContent }: DataProps) => {
+const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
   const [analysisResults, setAnalysisResults] =
     useState<AnalysisResults | null>(null);
 
@@ -73,4 +73,4 @@ const Data: React.FC<DataProps> = ({ fileContent }: DataProps) => {
   );
 };
 
-export default Data;
+export default Results;
