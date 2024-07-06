@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Video } from "../types"; // Adjust the import path as necessary
+import { Video } from "../types";
 
 interface FileUploadProps {
-  setFileContent: (videos: Video[]) => void;
+  setFileContent: (videos: Video[] | null) => void;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ setFileContent }) => {
+const Home: React.FC<FileUploadProps> = ({ setFileContent }) => {
   const [error, setError] = useState<string | null>(null);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,24 +18,28 @@ const FileUpload: React.FC<FileUploadProps> = ({ setFileContent }) => {
           setFileContent(json); // Call the callback with the parsed JSON
           setError(null);
         } catch (err) {
+          setFileContent(null);
           setError("Failed to parse JSON file");
         }
       };
       reader.onerror = () => {
+        setFileContent(null);
         setError("Failed to read file");
       };
       reader.readAsText(file);
     } else {
+      setFileContent(null);
       setError("Please upload a valid JSON file");
     }
   };
 
   return (
     <div>
+      <h1>Upload</h1>
       <input type="file" onChange={onFileChange} />
       {error && <div style={{ color: "red" }}>{error}</div>}
     </div>
   );
 };
 
-export default FileUpload;
+export default Home;
