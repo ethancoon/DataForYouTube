@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
         width: "50%",
         justifyContent: "center",
         gap: 0,
-        bgcolor: "background.paper",
+        bgcolor: "#FF0000",
         borderRadius: 3,
         boxShadow: 3,
         mt: 2,

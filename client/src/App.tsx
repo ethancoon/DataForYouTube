@@ -6,6 +6,7 @@ import Home from "./pages/Upload";
 import Links from "./pages/Links";
 import Faq from "./pages/FAQ";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [fileContent, setFileContent] = useState<Video[] | null>(null);
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/faq" element={<Faq />} />
         <Route path="/contact" element={<Links />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };

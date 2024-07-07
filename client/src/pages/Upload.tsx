@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Video } from "../types";
 import { Typography, Button, Alert, Box } from "@mui/material";
+import { CloudUpload, GitHub } from "@mui/icons-material";
 
 interface FileUploadProps {
   setFileContent: (videos: Video[] | null) => void;
@@ -46,20 +47,32 @@ const Home: React.FC<FileUploadProps> = ({ setFileContent }) => {
         maxWidth: 500,
         margin: "auto",
         textAlign: "center",
-        paddingTop: 5,
+        paddingTop: 35,
       }}
     >
-      <Typography variant="h4" gutterBottom>
-        Upload
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{
+          fontSize: 60,
+          fontWeight: "bold",
+        }}
+      >
+        Data for YouTube
       </Typography>
-      <input
-        type="file"
-        style={{ display: "none" }}
-        onChange={onFileChange}
-        ref={fileInputRef}
-      />
-      <Button variant="contained" component="span" onClick={handleButtonClick}>
-        Upload JSON File
+      <Button
+        variant="contained"
+        component="span"
+        onClick={handleButtonClick}
+        startIcon={<CloudUpload />}
+        sx={{
+          backgroundColor: "#FF0000",
+          color: "white",
+          fontSize: 20,
+          fontWeight: "bold",
+        }}
+      >
+        Upload json file
       </Button>
       {error && (
         <Alert severity="error" sx={{ marginTop: 2 }}>
