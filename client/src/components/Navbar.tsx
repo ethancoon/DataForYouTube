@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
-import { Link } from "react-router-dom";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import QuizIcon from "@mui/icons-material/Quiz";
@@ -64,8 +63,6 @@ const Navbar: React.FC = () => {
       {menuItems.map((item) => (
         <Button
           key={item.text}
-          component={Link}
-          to={item.link}
           sx={{
             textTransform: "none",
             color: "text.primary",

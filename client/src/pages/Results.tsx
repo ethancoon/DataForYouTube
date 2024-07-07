@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Video, AnalysisResults } from "../types";
 import YouTubeUsageChart from "../components/charts/HourlyUsageChart";
 import StreaksChart from "../components/charts/StreaksChart";
@@ -10,6 +10,7 @@ import {
   getFavoriteChannels,
   getLongestStreaks,
 } from "../utils/dataProcessing";
+import { Box, Typography } from "@mui/material";
 
 interface ResultsProps {
   fileContent: Video[] | null;
@@ -18,6 +19,12 @@ interface ResultsProps {
 const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
   const [analysisResults, setAnalysisResults] =
     useState<AnalysisResults | null>(null);
+
+  useEffect(() => {
+    if (fileContent) {
+      analyzeData(fileContent);
+    }
+  }, [fileContent]);
 
   const analyzeData = (data: Video[]) => {
     const videos = data;
@@ -35,41 +42,35 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
     });
   };
 
-  const processFileContent = () => {
-    if (fileContent) {
-      analyzeData(fileContent);
-    }
-  };
-
   return (
-    <div>
+    <Box>
       {fileContent && (
-        <div>
-          <h3>File Content:</h3>
-          <button onClick={processFileContent}>Process Data</button>
+        <Box>
           {analysisResults && (
-            <div>
-              <h3>Analysis Results:</h3>
-              <div>
-                <div style={{ width: "400px", height: "200px" }}>
-                  <YouTubeUsageChart analysisResults={analysisResults} />
-                </div>
-                <div>
-                  <h3>Longest Streaks:</h3>
-                  <StreaksChart streaks={analysisResults.streaks} />
-                  {/* Other components */}
-                  {/* <StreaksChart2 /> */}
-                </div>
-              </div>
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                Analysis Results:
+              </Typography>
+              <Box sx={{ width: 400, height: 200 }}>
+                <YouTubeUsageChart analysisResults={analysisResults} />
+              </Box>
+              <Box>
+                <Typography variant="h6" gutterBottom>
+                  Longest Streaks:
+                </Typography>
+                <StreaksChart streaks={analysisResults.streaks} />
+                {/* Other components */}
+                {/* <StreaksChart2 /> */}
+              </Box>
               <TopVideos topVideos={analysisResults.topVideos} />
               <TopChannels
                 favoriteChannels={analysisResults.favoriteChannels}
               />
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
