@@ -69,6 +69,7 @@ const Navbar: React.FC = () => {
           sx={{
             textTransform: "none",
             color: "text.primary",
+            fontWeight: "bold",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

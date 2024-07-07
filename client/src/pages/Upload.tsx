@@ -1,43 +1,35 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
+import { Box, Typography, Button, Alert, Input } from "@mui/material";
+import CloudUpload from "@mui/icons-material/CloudUpload";
 import { Video } from "../types";
-import { Typography, Button, Alert, Box } from "@mui/material";
-import { CloudUpload, GitHub } from "@mui/icons-material";
 
 interface FileUploadProps {
   setFileContent: (videos: Video[] | null) => void;
 }
 
-const Home: React.FC<FileUploadProps> = ({ setFileContent }) => {
-  const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+const Upload: React.FC<FileUploadProps> = ({ setFileContent }) => {
+  const [error, setError] = useState("");
 
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
     if (file && file.type === "application/json") {
+      // Assuming you want to read the file content
       const reader = new FileReader();
-      reader.onload = (event: ProgressEvent<FileReader>) => {
+      reader.onload = (e: ProgressEvent<FileReader>) => {
         try {
-          const json = JSON.parse(event.target?.result as string);
+          const json = JSON.parse(e.target?.result as string);
           setFileContent(json);
-          setError(null);
+          setError("");
         } catch (err) {
           setFileContent(null);
-          setError("Failed to parse JSON file");
+          setError("Error parsing JSON file");
         }
-      };
-      reader.onerror = () => {
-        setFileContent(null);
-        setError("Failed to read file");
       };
       reader.readAsText(file);
     } else {
       setFileContent(null);
       setError("Please upload a valid JSON file");
     }
-  };
-
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
   };
 
   return (
@@ -60,20 +52,30 @@ const Home: React.FC<FileUploadProps> = ({ setFileContent }) => {
       >
         Data for YouTube
       </Typography>
-      <Button
-        variant="contained"
-        component="span"
-        onClick={handleButtonClick}
-        startIcon={<CloudUpload />}
-        sx={{
-          backgroundColor: "#FF0000",
-          color: "white",
-          fontSize: 20,
-          fontWeight: "bold",
-        }}
-      >
-        Upload json file
-      </Button>
+      <label htmlFor="upload-button-file">
+        <Input
+          id="upload-button-file"
+          type="file"
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
+        <Button
+          variant="contained"
+          component="span"
+          startIcon={<CloudUpload />}
+          sx={{
+            backgroundColor: "#FF0000",
+            color: "white",
+            fontSize: 20,
+            fontWeight: "bold",
+            "&:hover": {
+              backgroundColor: "#820000",
+            },
+          }}
+        >
+          Upload json file
+        </Button>
+      </label>
       {error && (
         <Alert severity="error" sx={{ marginTop: 2 }}>
           {error}
@@ -83,4 +85,4 @@ const Home: React.FC<FileUploadProps> = ({ setFileContent }) => {
   );
 };
 
-export default Home;
+export default Upload;
