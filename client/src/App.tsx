@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Video } from "./types";
 import Results from "./pages/Data";
-import Home from "./pages/Home";
+import Home from "./pages/Upload";
 import Links from "./pages/Links";
 import Faq from "./pages/FAQ";
 import Navbar from "./components/Navbar";
@@ -20,7 +20,7 @@ const App = () => {
           element={<Results fileContent={fileContent} />}
         />
         <Route path="/faq" element={<Faq />} />
-        <Route path="/links" element={<Links />} />
+        <Route path="/contact" element={<Links />} />
       </Routes>
     </Router>
   );

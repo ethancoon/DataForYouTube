@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Avatar } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PieChartIcon from "@mui/icons-material/PieChart";
@@ -8,7 +8,7 @@ import LinkIcon from "@mui/icons-material/Link";
 
 const Navbar: React.FC = () => {
   const menuItems = [
-    { text: "Home", link: "/", image: "FileUploadIcon" },
+    { text: "Upload", link: "/", image: "FileUploadIcon" },
     {
       text: "Results",
       link: "/results",
