@@ -90,6 +90,10 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 YouTube Usage:
               </Typography>
               <YouTubeUsageChart analysisResults={analysisResults} />
+              <Typography variant="h6" gutterBottom>
+                Top Videos:
+              </Typography>
+              <TopVideos topVideos={analysisResults.topVideos} />
             </Box>
             {/* Right half - Longest Streaks and other components */}
             <Box
@@ -105,10 +109,6 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 Longest Streaks:
               </Typography>
               <StreaksChart streaks={analysisResults.streaks} />
-              <Typography variant="h6" gutterBottom>
-                Top Videos:
-              </Typography>
-              <TopVideos topVideos={analysisResults.topVideos} />
               <Typography variant="h6" gutterBottom>
                 Top Channels:
               </Typography>
