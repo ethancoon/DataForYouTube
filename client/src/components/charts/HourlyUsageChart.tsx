@@ -22,13 +22,24 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
   const minCount = Math.min(...counts);
   const maxCount = Math.max(...counts);
 
-  // Function to interpolate between two colors
+  // Custom interpolation function to create a color gradient
   const interpolateColor = (value: number, min: number, max: number) => {
     const ratio = (value - min) / (max - min);
-    const r = Math.round(255 * ratio);
-    const g = 0;
-    const b = Math.round(255 * (1 - ratio));
-    return `rgb(${r}, ${g}, ${b})`;
+    if (ratio < 0.25) {
+      // Deep Blue to Blue
+      return `rgb(0, 0, ${255 - Math.round(ratio * 1020)})`; // deep blue to blue
+    } else if (ratio < 0.5) {
+      // Blue to Yellow
+      return `rgb(${Math.round((ratio - 0.25) * 1020)}, ${Math.round(
+        (ratio - 0.25) * 1020,
+      )}, 0)`; // blue to yellow
+    } else if (ratio < 0.75) {
+      // Yellow to Orange
+      return `rgb(255, ${255 - Math.round((ratio - 0.5) * 510)}, 0)`; // yellow to orange
+    } else {
+      // Orange to Red
+      return `rgb(255, ${127 - Math.round((ratio - 0.75) * 510)}, 0)`; // orange to red
+    }
   };
 
   // Prepare chart data
