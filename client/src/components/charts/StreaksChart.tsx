@@ -36,7 +36,7 @@ const StreaksChart = ({ streaks }) => {
   };
 
   return (
-    <div style={{ width: "600px", height: "400px" }}>
+    <div>
       <Bar data={data} options={options} />
     </div>
   );

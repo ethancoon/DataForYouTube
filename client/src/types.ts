@@ -25,9 +25,9 @@ interface TimeCount {
 }
 
 interface Streak {
-  start: string;
-  end: string;
-  length: number;
+  start: string; // The start date of the streak in ISO format (YYYY-MM-DD)
+  end: string; // The end date of the streak in ISO format (YYYY-MM-DD)
+  length: number; // The length of the streak in days
 }
 
 interface Video {
@@ -47,4 +47,13 @@ interface AnalysisResults {
   streaks: Streak[];
 }
 
-export type { TopVideos, FavoriteChannels, VideoCount, ChannelCount, TimeCount, Streak, Video, AnalysisResults };
+export type {
+  TopVideos,
+  FavoriteChannels,
+  VideoCount,
+  ChannelCount,
+  TimeCount,
+  Streak,
+  Video,
+  AnalysisResults,
+};

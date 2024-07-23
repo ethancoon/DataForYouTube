@@ -1,4 +1,4 @@
-import { Video, VideoCount, ChannelCount } from "../types";
+import { Video, VideoCount, ChannelCount, Streak } from "../types";
 
 const getTopVideos = (videos: Video[]) => {
   const videoCounts: VideoCount = {};
@@ -79,14 +79,14 @@ const getFavoriteChannels = (videos: Video[]) => {
   return result;
 };
 
-const getLongestStreaks = (videos: Video[]) => {
+const getLongestStreaks = (videos: Video[]): Streak[] => {
   const dates = new Set(
     videos.map((video) => new Date(video.time).toISOString().split("T")[0]),
   );
 
   const sortedDates = Array.from(dates).sort();
 
-  const streaks = [];
+  const streaks: Streak[] = [];
   let currentStreakStart = sortedDates[0];
   let currentStreakEnd = sortedDates[0];
   let currentStreak = 1;
@@ -112,24 +112,16 @@ const getLongestStreaks = (videos: Video[]) => {
     }
   }
 
-  // Add the last streak
-  streaks.push({
-    start: currentStreakStart,
-    end: currentStreakEnd,
-    length: currentStreak,
-  });
+  // Handle the last streak
+  if (currentStreak > 0) {
+    streaks.push({
+      start: currentStreakStart,
+      end: currentStreakEnd,
+      length: currentStreak,
+    });
+  }
 
-  // Sort streaks by length in descending order and take the top 3
-  const topStreaks = streaks.sort((a, b) => b.length - a.length).slice(0, 3);
-
-  // Example of printing the top 3 streaks
-  // topStreaks.forEach((streak, index) => {
-  //   console.log(
-  //     `Streak ${index + 1}: Start Date: ${streak.start}, End Date: ${streak.end}, Length: ${streak.length} days`,
-  //   );
-  // });
-
-  return topStreaks;
+  return streaks;
 };
 
 export {

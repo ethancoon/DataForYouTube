@@ -47,7 +47,7 @@ const Faq = () => {
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" gutterBottom align="center">
-        Frequently Asked Questions
+        FAQ
       </Typography>
       {faqData.map((faq, index) => (
         <Accordion

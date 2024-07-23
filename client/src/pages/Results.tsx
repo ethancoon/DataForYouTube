@@ -44,30 +44,79 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
 
   return (
     <Box>
-      {fileContent && (
+      {analysisResults && (
         <Box>
-          {analysisResults && (
-            <Box>
-              <Typography variant="h5" gutterBottom>
-                Analysis Results:
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              marginLeft: 5.5,
+              fontSize: 25,
+              fontWeight: "bold",
+            }}
+          >
+            Analysis Results:
+          </Typography>
+          {/* Red line separator */}
+          <Box
+            sx={{
+              borderBottom: 2,
+              borderColor: "red",
+              width: "25%",
+              marginBottom: 2,
+              marginLeft: 3,
+            }}
+          ></Box>
+          {/* Flex container for side-by-side layout */}
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              width: "100%",
+              alignItems: "stretch",
+            }}
+          >
+            {/* Left half - YouTube Usage Chart */}
+            <Box
+              sx={{
+                flex: "1 1 50%",
+                paddingRight: 2,
+                minWidth: "300px",
+                boxSizing: "border-box",
+                height: "100%",
+              }}
+            >
+              <Typography variant="h6" gutterBottom>
+                YouTube Usage:
               </Typography>
-              <Box sx={{ width: 400, height: 200 }}>
-                <YouTubeUsageChart analysisResults={analysisResults} />
-              </Box>
-              <Box>
-                <Typography variant="h6" gutterBottom>
-                  Longest Streaks:
-                </Typography>
-                <StreaksChart streaks={analysisResults.streaks} />
-                {/* Other components */}
-                {/* <StreaksChart2 /> */}
-              </Box>
+              <YouTubeUsageChart analysisResults={analysisResults} />
+            </Box>
+            {/* Right half - Longest Streaks and other components */}
+            <Box
+              sx={{
+                flex: "1 1 50%",
+                paddingLeft: 2,
+                minWidth: "300px",
+                boxSizing: "border-box",
+                height: "100%",
+              }}
+            >
+              <Typography variant="h6" gutterBottom>
+                Longest Streaks:
+              </Typography>
+              <StreaksChart streaks={analysisResults.streaks} />
+              <Typography variant="h6" gutterBottom>
+                Top Videos:
+              </Typography>
               <TopVideos topVideos={analysisResults.topVideos} />
+              <Typography variant="h6" gutterBottom>
+                Top Channels:
+              </Typography>
               <TopChannels
                 favoriteChannels={analysisResults.favoriteChannels}
               />
             </Box>
-          )}
+          </Box>
         </Box>
       )}
     </Box>
