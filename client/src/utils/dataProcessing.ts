@@ -32,13 +32,22 @@ const getTopVideos = (videos: Video[]) => {
 
 const getMostActiveWatchTimes = (videos: Video[]) => {
   const hours = new Array(24).fill(0);
+  const days = new Set();
 
   videos.forEach((video) => {
-    const hour = new Date(video.time).getHours();
+    const date = new Date(video.time);
+    const hour = date.getHours();
+    const day = date.toISOString().slice(0, 10); // Get the date in 'YYYY-MM-DD' format
+    days.add(day);
     hours[hour]++;
   });
 
-  return hours.map((count, hour) => ({ hour, count }));
+  const totalDays = days.size || 1; // Avoid division by zero
+
+  return hours.map((cumulative, hour) => ({
+    hour,
+    count: cumulative / totalDays,
+  }));
 };
 
 const getFavoriteChannels = (videos: Video[]) => {
