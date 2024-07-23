@@ -10,7 +10,7 @@ import {
   getFavoriteChannels,
   getLongestStreaks,
 } from "../utils/dataProcessing";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
 
 interface ResultsProps {
   fileContent: Video[] | null;
@@ -43,7 +43,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ padding: 4 }}>
       {analysisResults && (
         <Box>
           <Typography
@@ -74,16 +74,20 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
               flexWrap: "wrap",
               width: "100%",
               alignItems: "stretch",
+              gap: 4,
             }}
           >
             {/* Left half - YouTube Usage Chart */}
             <Box
               sx={{
-                flex: "1 1 50%",
+                flex: "1 1 45%",
                 paddingRight: 2,
                 minWidth: "300px",
                 boxSizing: "border-box",
                 height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
               }}
             >
               <Typography variant="h6" gutterBottom>
@@ -91,30 +95,52 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
               </Typography>
               <YouTubeUsageChart analysisResults={analysisResults} />
               <Typography variant="h6" gutterBottom>
-                Top Videos:
+                Longest Streaks:
               </Typography>
-              <TopVideos topVideos={analysisResults.topVideos} />
+              <StreaksChart streaks={analysisResults.streaks} />
             </Box>
-            {/* Right half - Longest Streaks and other components */}
+            {/* Right half - Top Videos and Top Channels */}
             <Box
               sx={{
-                flex: "1 1 50%",
+                flex: "1 1 45%",
                 paddingLeft: 2,
                 minWidth: "300px",
                 boxSizing: "border-box",
                 height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
+                alignItems: "center",
               }}
             >
-              <Typography variant="h6" gutterBottom>
-                Longest Streaks:
-              </Typography>
-              <StreaksChart streaks={analysisResults.streaks} />
-              <Typography variant="h6" gutterBottom>
-                Top Channels:
-              </Typography>
-              <TopChannels
-                favoriteChannels={analysisResults.favoriteChannels}
-              />
+              <Paper
+                sx={{
+                  height: 800,
+                  overflowY: "scroll",
+                  padding: 2,
+                  width: "50%",
+                }}
+              >
+                <Typography variant="h6" gutterBottom>
+                  Top Videos:
+                </Typography>
+                <TopVideos topVideos={analysisResults.topVideos} />
+              </Paper>
+              <Paper
+                sx={{
+                  height: 800,
+                  overflowY: "scroll",
+                  padding: 2,
+                  width: "50%",
+                }}
+              >
+                <Typography variant="h6" gutterBottom>
+                  Top Channels:
+                </Typography>
+                <TopChannels
+                  favoriteChannels={analysisResults.favoriteChannels}
+                />
+              </Paper>
             </Box>
           </Box>
         </Box>

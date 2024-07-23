@@ -28,7 +28,7 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
     const ratio = (value - minCount) / (maxCount - minCount);
     // Calculate hue for HSL
     const hue = ((1 - ratio) * 120).toString(10);
-    return `hsl(${hue}, 75%, 50%)`;
+    return `hsl(${hue}, 100%, 50%)`;
   };
 
   // Prepare chart data
@@ -42,7 +42,7 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
           getColor(time.count),
         ),
         borderColor: "white", // Add a white border to each bar
-        borderWidth: 1,
+        borderWidth: 1, // Initial border width, will be dynamically adjusted
         barPercentage: 1.0,
         categoryPercentage: 1.0,
       },
@@ -53,6 +53,7 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
   const options = {
     indexAxis: "y", // Make the bars horizontal
     responsive: true,
+    maintainAspectRatio: false, // Ensures the chart resizes correctly
     scales: {
       x: {
         beginAtZero: true,
@@ -83,7 +84,7 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
   };
 
   return (
-    <div ref={ref}>
+    <div ref={ref} style={{ position: "relative", height: "500px" }}>
       <Bar data={chartData} options={options} />
     </div>
   );
