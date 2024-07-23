@@ -47,7 +47,7 @@ const Upload: React.FC<FileUploadProps> = ({ setFileContent }) => {
         variant="h4"
         gutterBottom
         sx={{
-          fontSize: 60,
+          fontSize: 56,
           fontWeight: "bold",
         }}
       >

@@ -53,6 +53,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
               marginLeft: 5.5,
               fontSize: 25,
               fontWeight: "bold",
+              marginBottom: 4,
             }}
           >
             Analysis Results:
@@ -90,9 +91,6 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 gap: 2,
               }}
             >
-              <Typography variant="h6" gutterBottom>
-                YouTube Usage:
-              </Typography>
               <YouTubeUsageChart analysisResults={analysisResults} />
               <Typography variant="h6" gutterBottom>
                 Longest Streaks:

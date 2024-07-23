@@ -8,7 +8,6 @@ const Footer = () => {
         bgcolor: "background.paper",
         py: 6,
         width: "100%",
-        position: "fixed", // or 'absolute' if you prefer
         bottom: 0,
         left: 0,
       }}

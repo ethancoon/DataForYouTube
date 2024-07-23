@@ -46,18 +46,21 @@ const Navbar: React.FC = () => {
   return (
     <Box
       sx={{
-        display: "flex",
+        position: "fixed",
+        top: 0,
         width: "50%",
+        left: "25%",
+        zIndex: 1000,
+        display: "flex",
         justifyContent: "center",
-        gap: 0,
         bgcolor: "#FF0000",
         borderRadius: 3,
         boxShadow: 3,
         mt: 2,
         pl: 2,
         pr: 2,
-        marginLeft: "auto",
-        marginRight: "auto",
+        pt: 1,
+        pb: 1,
       }}
     >
       {menuItems.map((item) => (
@@ -72,34 +75,34 @@ const Navbar: React.FC = () => {
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
-            padding: 0, // Minimize default padding
-            width: 96, // Fixed width for the button
-            height: 78, // Fixed height for the button
+            padding: 0,
+            width: 96,
+            height: 78,
             "&:hover": {
               "& .text": {
-                opacity: 1, // Show text on hover
+                opacity: 1,
               },
               "& .avatar": {
-                transform: "translateY(-6px)", // Move up slightly to simulate marginBottom
-                width: 30, // Smaller size on hover
-                height: 30, // Maintain aspect ratio
+                transform: "translateY(-6px)",
+                width: 30,
+                height: 30,
               },
             },
             "& .text": {
-              opacity: 0, // Initially hidden
-              transition: "opacity 0.3s", // Smooth transition for the opacity
-              fontSize: "0.75rem", // Adjust text size as needed
+              opacity: 0,
+              transition: "opacity 0.3s",
+              fontSize: "0.75rem",
             },
             "& .avatar": {
-              marginTop: 2, // Adjust vertical alignment
-              width: 40, // Default size to fit within the button
-              height: 40, // Maintain aspect ratio
-              transition: "transform 0.3s, width 0.3s, height 0.3s", // Animate transform, width, and height
+              marginTop: 2,
+              width: 40,
+              height: 40,
+              transition: "transform 0.3s, width 0.3s, height 0.3s",
             },
           }}
         >
           {getIcon(item.image)}
-          <span className="text">{item.text}</span> {/* Wrap the text */}
+          <span className="text">{item.text}</span>
         </Button>
       ))}
     </Box>
