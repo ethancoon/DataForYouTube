@@ -34,7 +34,6 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
     const topVideos = getTopVideos(videos);
     const activeTimes = getMostActiveWatchTimes(videos);
     const activeDayTimes = getMostActiveDayWatchtimes(videos);
-    console.log(activeDayTimes);
     const favoriteChannels = getFavoriteChannels(videos);
     const streaks = getLongestStreaks(videos);
 
@@ -74,7 +73,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 borderBottom: 2,
                 borderColor: "red",
                 width: "25%",
-                marginBottom: 20,
+                marginBottom: 5,
               }}
             ></Box>
           </Box>
@@ -125,9 +124,18 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
               >
                 YouTube Usage per Day:
               </Typography>
-              <WeekUsageHeatmap
-                analysisResults={analysisResults.activeDayTimes}
-              />
+              <Box
+                sx={{
+                  minWidth: 0,
+                  width: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <WeekUsageHeatmap
+                  activeDayTimes={analysisResults.activeDayTimes}
+                />
+              </Box>
 
               <Typography variant="h6" gutterBottom>
                 Longest Streaks:

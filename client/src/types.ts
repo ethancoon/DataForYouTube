@@ -25,7 +25,7 @@ interface HourTimeCount {
 }
 
 interface DayTimeCount {
-  day: { [key: string]: number };
+  day: string;
   count: number;
 }
 

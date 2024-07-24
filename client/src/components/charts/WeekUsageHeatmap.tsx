@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Chart } from "react-chartjs-2";
 import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
 import { Chart as ChartJS, registerables } from "chart.js";
@@ -10,97 +11,74 @@ const WeekUsageHeatmap = ({
 }: {
   activeDayTimes: DayTimeCount[];
 }) => {
-  console.log(activeDayTimes);
   if (!activeDayTimes || activeDayTimes.length === 0) {
     return <div>No data available</div>;
   }
 
-  const data = {
-    datasets: [
-      {
-        label: "YouTube Usage Heatmap",
-        data: activeDayTimes.map((item) => ({
-          x: new Date(`1970-01-01T${item.day.hour}:00:00`).getHours(),
-          y: [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-          ].indexOf(item.day),
-          v: item.count,
-        })),
-        backgroundColor: (context) => {
-          const value = context.dataset.data[context.dataIndex].v;
-          const alpha = Math.min(1, Math.max(0.1, value / 10));
-          return `rgba(255, 0, 0, ${alpha})`; // Red color with varying transparency
-        },
-        borderColor: "rgba(255, 0, 0, 0.1)",
-        borderWidth: 1,
-        width: ({ chart }) => chart.chartArea.width / 24 - 2,
-        height: ({ chart }) => chart.chartArea.height / 7 - 2,
-      },
-    ],
+  const getGitHubColor = (value) => {
+    if (value <= 5) return "rgba(235, 237, 240, 1)"; // Lightest
+    if (value <= 10) return "rgba(155, 233, 168, 1)"; // Light green
+    if (value <= 15) return "rgba(64, 196, 99, 1)"; // Medium green
+    if (value <= 20) return "rgba(0, 135, 58, 1)"; // Dark green
+    return "rgba(0, 90, 50, 1)"; // Darkest
   };
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        type: "linear",
-        position: "bottom",
-        min: 0,
-        max: 23,
-        ticks: {
-          stepSize: 1,
-          callback: (value) => `${value}:00`,
-          color: "white",
+  const data = activeDayTimes.map((item) => ({
+    x: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ].indexOf(item.day),
+    y: 0,
+    v: item.count,
+  }));
+
+  const config = {
+    type: "matrix",
+    data: {
+      datasets: [
+        {
+          label: "YouTube Usage Heatmap",
+          data: data,
+          backgroundColor: (context) => {
+            const value = context.dataset.data[context.dataIndex].v;
+            return getGitHubColor(value);
+          },
+          borderColor: "rgba(0,0,0,0.5)",
+          borderWidth: 1,
+          width: ({ chart }) => {
+            const chartArea = chart.chartArea || { width: 0, height: 0 };
+            const totalWidth = chartArea.width;
+            const fixedGap = 6; // Adjusted fixed gap between squares
+            const squareSize = (totalWidth - fixedGap * 6) / 7;
+            return Math.max(squareSize, 40); // Ensure a minimum size of 40px
+          },
+          height: ({ chart }) => {
+            const chartArea = chart.chartArea || { width: 0, height: 0 };
+            const totalWidth = chartArea.width;
+            const fixedGap = 6; // Adjusted fixed gap between squares
+            const squareSize = (totalWidth - fixedGap * 6) / 7;
+            return Math.max(squareSize, 40); // Ensure a minimum size of 40px
+          },
         },
-        title: {
-          display: true,
-          text: "Hour of Day",
-          color: "white",
-        },
-      },
-      y: {
-        type: "linear",
-        position: "left",
-        min: 0,
-        max: 6,
-        ticks: {
-          stepSize: 1,
-          callback: (value) =>
-            [
-              "Sunday",
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-            ][value],
-          color: "white",
-        },
-        title: {
-          display: true,
-          text: "Day of Week",
-          color: "white",
-        },
-      },
+      ],
     },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        callbacks: {
-          title: (tooltipItems) => {
-            const day = tooltipItems[0].raw.y;
-            const hour = tooltipItems[0].raw.x;
-            return `${
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          type: "linear",
+          position: "bottom",
+          min: -0.5,
+          max: 6.5,
+          ticks: {
+            stepSize: 1,
+            callback: (value) =>
               [
                 "Sunday",
                 "Monday",
@@ -109,11 +87,50 @@ const WeekUsageHeatmap = ({
                 "Thursday",
                 "Friday",
                 "Saturday",
-              ][day]
-            } at ${hour}:00`;
+              ][value],
+            color: "white",
           },
-          label: (tooltipItem) => {
-            return `Videos Watched: ${tooltipItem.raw.v}`;
+          title: {
+            display: true,
+            text: "Day of Week",
+            color: "white",
+          },
+        },
+        y: {
+          display: false,
+        },
+      },
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10,
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          callbacks: {
+            title: (tooltipItems) => {
+              const day = tooltipItems[0].raw.x;
+              return `${
+                [
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ][day]
+              }`;
+            },
+            label: (tooltipItem) => {
+              return `Videos Watched: ${tooltipItem.raw.v}`;
+            },
           },
         },
       },
@@ -121,8 +138,8 @@ const WeekUsageHeatmap = ({
   };
 
   return (
-    <div style={{ height: "500px", width: "100%" }}>
-      <Chart type="matrix" data={data} options={options} />
+    <div style={{ height: "300px", width: "100%" }}>
+      <Chart {...config} />
     </div>
   );
 };

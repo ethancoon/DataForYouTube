@@ -7,34 +7,31 @@ import {
 } from "../types";
 
 const getMostActiveDayWatchtimes = (videos: Video[]): DayTimeCount[] => {
-  const dayHourCount: number[][] = Array.from({ length: 7 }, () =>
-    new Array(24).fill(0),
-  );
+  // Initialize an array to hold the cumulative counts for each day
+  const dayCounts: number[] = new Array(7).fill(0);
 
+  // Iterate over the videos to populate the counts
   videos.forEach((video) => {
     const date = new Date(video.time);
     const day = date.getDay();
-    const hour = date.getHours();
-    dayHourCount[day][hour]++;
+    dayCounts[day]++;
   });
 
-  const data: DayTimeCount[] = [];
-  for (let day = 0; day < 7; day++) {
-    for (let hour = 0; hour < 24; hour++) {
-      data.push({
-        day: [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ][day],
-        count: dayHourCount[day][hour],
-      });
-    }
-  }
+  // Create an array with the day names and the cumulative counts
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const data: DayTimeCount[] = daysOfWeek.map((day, index) => ({
+    day,
+    count: dayCounts[index],
+  }));
 
   return data;
 };
