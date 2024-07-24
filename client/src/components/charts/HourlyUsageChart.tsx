@@ -1,7 +1,5 @@
-import React from "react";
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
-import { useInView } from "react-intersection-observer";
 import { AnalysisResults } from "../../types";
 
 interface YouTubeUsageChartProps {
@@ -9,15 +7,6 @@ interface YouTubeUsageChartProps {
 }
 
 const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
-  const { ref } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  if (!analysisResults) {
-    return null;
-  }
-
   const counts = analysisResults.activeTimes.map((time) => time.count);
   const minCount = Math.min(...counts);
   const maxCount = Math.max(...counts);
@@ -41,8 +30,8 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
         backgroundColor: analysisResults.activeTimes.map((time) =>
           getColor(time.count),
         ),
-        borderColor: "white", // Add a white border to each bar
-        borderWidth: 1, // Initial border width, will be dynamically adjusted
+        borderColor: "#121212", // Add a white border to each bar
+        borderWidth: 2.5, // Initial border width, will be dynamically adjusted
         barPercentage: 1.0,
         categoryPercentage: 1.0,
       },
@@ -51,19 +40,49 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
 
   // Chart options
   const options = {
-    indexAxis: "y", // Make the bars horizontal
+    indexAxis: "x" as const,
     responsive: true,
-    maintainAspectRatio: false, // Ensures the chart resizes correctly
+    maintainAspectRatio: false,
     scales: {
       x: {
         beginAtZero: true,
         ticks: {
-          color: "white", // Makes x-axis labels white
+          color: "white",
+          font: {
+            weight: "bold" as const,
+          },
+        },
+        title: {
+          display: true,
+          text: "Hour",
+          color: "white",
+          font: {
+            size: 20,
+            weight: "bold" as const,
+          },
+        },
+        grid: {
+          display: false,
         },
       },
       y: {
         ticks: {
-          color: "white", // Makes y-axis labels white
+          color: "white",
+          font: {
+            weight: "bold" as const,
+          },
+        },
+        title: {
+          display: true,
+          text: "Average Videos Watched",
+          color: "white",
+          font: {
+            size: 20,
+            weight: "bold" as const,
+          },
+        },
+        grid: {
+          display: false,
         },
       },
     },
@@ -75,16 +94,10 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
         display: false, // Hide the title
       },
     },
-    elements: {
-      bar: {
-        barPercentage: 1.0, // No spacing between bars
-        categoryPercentage: 1.0, // No spacing between bars
-      },
-    },
   };
 
   return (
-    <div ref={ref} style={{ position: "relative", height: "500px" }}>
+    <div style={{ position: "relative", height: "500px" }}>
       <Bar data={chartData} options={options} />
     </div>
   );

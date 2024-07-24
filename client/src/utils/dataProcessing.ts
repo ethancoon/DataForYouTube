@@ -1,4 +1,43 @@
-import { Video, VideoCount, ChannelCount, Streak } from "../types";
+import {
+  Video,
+  VideoCount,
+  ChannelCount,
+  Streak,
+  DayTimeCount,
+} from "../types";
+
+const getMostActiveDayWatchtimes = (videos: Video[]): DayTimeCount[] => {
+  const dayHourCount: number[][] = Array.from({ length: 7 }, () =>
+    new Array(24).fill(0),
+  );
+
+  videos.forEach((video) => {
+    const date = new Date(video.time);
+    const day = date.getDay();
+    const hour = date.getHours();
+    dayHourCount[day][hour]++;
+  });
+
+  const data: DayTimeCount[] = [];
+  for (let day = 0; day < 7; day++) {
+    for (let hour = 0; hour < 24; hour++) {
+      data.push({
+        day: [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ][day],
+        count: dayHourCount[day][hour],
+      });
+    }
+  }
+
+  return data;
+};
 
 const getTopVideos = (videos: Video[]) => {
   const videoCounts: VideoCount = {};
@@ -138,4 +177,5 @@ export {
   getMostActiveWatchTimes,
   getFavoriteChannels,
   getLongestStreaks,
+  getMostActiveDayWatchtimes,
 };

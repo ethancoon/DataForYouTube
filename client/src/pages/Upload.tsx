@@ -40,7 +40,7 @@ const Upload: React.FC<FileUploadProps> = ({ setFileContent }) => {
         margin: "auto",
         textAlign: "center",
         marginTop: 35,
-        marginBottom: 35,
+        marginBottom: 12,
       }}
     >
       <Typography

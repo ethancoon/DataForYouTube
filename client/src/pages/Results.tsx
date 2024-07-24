@@ -4,11 +4,13 @@ import YouTubeUsageChart from "../components/charts/HourlyUsageChart";
 import StreaksChart from "../components/charts/StreaksChart";
 import TopChannels from "../components/charts/TopChannels";
 import TopVideos from "../components/charts/TopVideos";
+import WeekUsageHeatmap from "../components/charts/WeekUsageHeatmap";
 import {
   getTopVideos,
   getMostActiveWatchTimes,
   getFavoriteChannels,
   getLongestStreaks,
+  getMostActiveDayWatchtimes,
 } from "../utils/dataProcessing";
 import { Box, Typography, Paper } from "@mui/material";
 
@@ -31,12 +33,15 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
 
     const topVideos = getTopVideos(videos);
     const activeTimes = getMostActiveWatchTimes(videos);
+    const activeDayTimes = getMostActiveDayWatchtimes(videos);
+    console.log(activeDayTimes);
     const favoriteChannels = getFavoriteChannels(videos);
     const streaks = getLongestStreaks(videos);
 
     setAnalysisResults({
       topVideos,
       activeTimes,
+      activeDayTimes,
       favoriteChannels,
       streaks,
     });
@@ -46,28 +51,33 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
     <Box sx={{ padding: 4 }}>
       {analysisResults && (
         <Box>
-          <Typography
-            variant="h5"
-            gutterBottom
+          <Box
             sx={{
-              marginLeft: 5.5,
-              fontSize: 25,
-              fontWeight: "bold",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
               marginBottom: 4,
             }}
           >
-            Analysis Results:
-          </Typography>
-          {/* Red line separator */}
-          <Box
-            sx={{
-              borderBottom: 2,
-              borderColor: "red",
-              width: "25%",
-              marginBottom: 2,
-              marginLeft: 3,
-            }}
-          ></Box>
+            <Typography
+              variant="h5"
+              gutterBottom
+              sx={{
+                fontSize: 35,
+                fontWeight: "bold",
+              }}
+            >
+              Analysis Results:
+            </Typography>
+            <Box
+              sx={{
+                borderBottom: 2,
+                borderColor: "red",
+                width: "25%",
+                marginBottom: 20,
+              }}
+            ></Box>
+          </Box>
           {/* Flex container for side-by-side layout */}
           <Box
             sx={{
@@ -91,7 +101,34 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 gap: 2,
               }}
             >
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontSize: 25,
+                  fontWeight: "bold",
+                  paddingLeft: 10,
+                }}
+              >
+                YouTube Usage per Hour:
+              </Typography>
               <YouTubeUsageChart analysisResults={analysisResults} />
+
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontSize: 25,
+                  fontWeight: "bold",
+                  paddingLeft: 10,
+                }}
+              >
+                YouTube Usage per Day:
+              </Typography>
+              <WeekUsageHeatmap
+                analysisResults={analysisResults.activeDayTimes}
+              />
+
               <Typography variant="h6" gutterBottom>
                 Longest Streaks:
               </Typography>

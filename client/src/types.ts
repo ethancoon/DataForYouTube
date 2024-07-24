@@ -19,8 +19,13 @@ interface ChannelCount {
   [key: string]: number;
 }
 
-interface TimeCount {
+interface HourTimeCount {
   hour: number;
+  count: number;
+}
+
+interface DayTimeCount {
+  day: { [key: string]: number };
   count: number;
 }
 
@@ -42,7 +47,8 @@ interface Video {
 
 interface AnalysisResults {
   topVideos: TopVideos[];
-  activeTimes: TimeCount[];
+  activeTimes: HourTimeCount[];
+  activeDayTimes: DayTimeCount[];
   favoriteChannels: FavoriteChannels[];
   streaks: Streak[];
 }
@@ -52,8 +58,8 @@ export type {
   FavoriteChannels,
   VideoCount,
   ChannelCount,
-  TimeCount,
   Streak,
   Video,
   AnalysisResults,
+  DayTimeCount,
 };
