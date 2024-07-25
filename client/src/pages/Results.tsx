@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Video, AnalysisResults } from "../types";
 import YouTubeUsageChart from "../components/charts/HourlyUsageChart";
+import CurrentStreak from "../components/CurrentStreak";
 import StreaksChart from "../components/charts/StreaksChart";
 import TopChannels from "../components/charts/TopChannels";
 import TopVideos from "../components/charts/TopVideos";
@@ -90,7 +91,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
               gap: 4,
             }}
           >
-            {/* Left half - YouTube Usage Chart */}
+            {/* Left half - Charts */}
             <Box
               sx={{
                 flex: "1 1 45%",
@@ -103,29 +104,17 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 gap: 2,
               }}
             >
-              <Typography
-                variant="h6"
-                gutterBottom
-                sx={{
-                  fontSize: 25,
-                  fontWeight: "bold",
-                  paddingLeft: 10,
-                }}
-              >
-                YouTube Usage per Hour:
-              </Typography>
               <YouTubeUsageChart analysisResults={analysisResults} />
 
-              <Box sx={{ height: "400px" }}>
+              <Box sx={{ height: "400px", marginTop: 10 }}>
                 <TotalUsageChart
                   countsPerDay={analysisResults.totalUsagePerDay}
                 />
               </Box>
 
-              <Typography variant="h6" gutterBottom>
-                Longest Streaks:
-              </Typography>
-              <StreaksChart streaks={analysisResults.streaks} />
+              <Box sx={{ marginTop: 10 }}>
+                <StreaksChart streaks={analysisResults.streaks} />
+              </Box>
             </Box>
             {/* Right half - Top Videos and Top Channels */}
             <Box
@@ -146,7 +135,8 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                   height: 800,
                   overflowY: "scroll",
                   padding: 2,
-                  width: "50%",
+                  width: "60%",
+                  minWidth: "350px",
                 }}
               >
                 <Typography variant="h6" gutterBottom>
@@ -159,7 +149,8 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                   height: 800,
                   overflowY: "scroll",
                   padding: 2,
-                  width: "50%",
+                  width: "60%",
+                  minWidth: "350px",
                 }}
               >
                 <Typography variant="h6" gutterBottom>

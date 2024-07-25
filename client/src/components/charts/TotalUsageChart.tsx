@@ -87,6 +87,9 @@ const TotalUsageChart = ({
         grid: {
           display: false,
         },
+        border: {
+          color: "white",
+        },
       },
       y: {
         beginAtZero: true,
@@ -107,6 +110,9 @@ const TotalUsageChart = ({
         },
         grid: {
           display: false,
+        },
+        border: {
+          color: "white",
         },
       },
     },

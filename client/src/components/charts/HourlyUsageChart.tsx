@@ -1,6 +1,7 @@
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { AnalysisResults } from "../../types";
+import { Typography } from "@mui/material";
 
 interface YouTubeUsageChartProps {
   analysisResults: AnalysisResults;
@@ -64,6 +65,9 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
         grid: {
           display: false,
         },
+        border: {
+          color: "white",
+        },
       },
       y: {
         ticks: {
@@ -84,6 +88,9 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
         grid: {
           display: false,
         },
+        border: {
+          color: "white",
+        },
       },
     },
     plugins: {
@@ -98,6 +105,17 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
 
   return (
     <div style={{ position: "relative", height: "500px" }}>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{
+          fontSize: 25,
+          fontWeight: "bold",
+          paddingLeft: 10,
+        }}
+      >
+        YouTube Usage per Hour:
+      </Typography>
       <Bar data={chartData} options={options} />
     </div>
   );

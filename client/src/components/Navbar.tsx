@@ -48,8 +48,8 @@ const Navbar: React.FC = () => {
       sx={{
         position: "fixed",
         top: 0,
-        width: "50%",
-        left: "25%",
+        width: "40%",
+        left: "30%",
         zIndex: 1000,
         display: "flex",
         justifyContent: "center",
