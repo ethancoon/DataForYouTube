@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Video, AnalysisResults } from "../types";
 import YouTubeUsageChart from "../components/charts/HourlyUsageChart";
 import CurrentStreak from "../components/CurrentStreak";
-import StreaksChart from "../components/charts/StreaksChart";
 import TopChannels from "../components/charts/TopChannels";
 import TopVideos from "../components/charts/TopVideos";
 import TotalUsageChart from "../components/charts/TotalUsageChart";
@@ -113,7 +112,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
               </Box>
 
               <Box sx={{ marginTop: 10 }}>
-                <StreaksChart streaks={analysisResults.streaks} />
+                <CurrentStreak streaks={analysisResults.streaks} />
               </Box>
             </Box>
             {/* Right half - Top Videos and Top Channels */}
