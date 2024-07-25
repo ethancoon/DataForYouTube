@@ -30,8 +30,8 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
         backgroundColor: analysisResults.activeTimes.map((time) =>
           getColor(time.count),
         ),
-        borderColor: "#121212", // Add a white border to each bar
-        borderWidth: 2.5, // Initial border width, will be dynamically adjusted
+        borderColor: "#121212", // same color as page background
+        borderWidth: 2.5,
         barPercentage: 1.0,
         categoryPercentage: 1.0,
       },
@@ -88,10 +88,10 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
     },
     plugins: {
       legend: {
-        display: false, // Hide the legend
+        display: false,
       },
       title: {
-        display: false, // Hide the title
+        display: false,
       },
     },
   };

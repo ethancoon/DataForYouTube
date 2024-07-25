@@ -4,13 +4,14 @@ import YouTubeUsageChart from "../components/charts/HourlyUsageChart";
 import StreaksChart from "../components/charts/StreaksChart";
 import TopChannels from "../components/charts/TopChannels";
 import TopVideos from "../components/charts/TopVideos";
-import WeekUsageHeatmap from "../components/charts/WeekUsageHeatmap";
+import TotalUsageChart from "../components/charts/TotalUsageChart";
 import {
   getTopVideos,
   getMostActiveWatchTimes,
   getFavoriteChannels,
   getLongestStreaks,
   getMostActiveDayWatchtimes,
+  getActivityPerDate,
 } from "../utils/dataProcessing";
 import { Box, Typography, Paper } from "@mui/material";
 
@@ -34,6 +35,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
     const topVideos = getTopVideos(videos);
     const activeTimes = getMostActiveWatchTimes(videos);
     const activeDayTimes = getMostActiveDayWatchtimes(videos);
+    const totalUsagePerDay = getActivityPerDate(videos);
     const favoriteChannels = getFavoriteChannels(videos);
     const streaks = getLongestStreaks(videos);
 
@@ -41,6 +43,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
       topVideos,
       activeTimes,
       activeDayTimes,
+      totalUsagePerDay,
       favoriteChannels,
       streaks,
     });
@@ -113,27 +116,9 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
               </Typography>
               <YouTubeUsageChart analysisResults={analysisResults} />
 
-              <Typography
-                variant="h6"
-                gutterBottom
-                sx={{
-                  fontSize: 25,
-                  fontWeight: "bold",
-                  paddingLeft: 10,
-                }}
-              >
-                YouTube Usage per Day:
-              </Typography>
-              <Box
-                sx={{
-                  minWidth: 0,
-                  width: "50%",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <WeekUsageHeatmap
-                  activeDayTimes={analysisResults.activeDayTimes}
+              <Box sx={{ height: "400px" }}>
+                <TotalUsageChart
+                  countsPerDay={analysisResults.totalUsagePerDay}
                 />
               </Box>
 

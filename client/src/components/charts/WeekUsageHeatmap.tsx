@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Chart } from "react-chartjs-2";
 import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
 import { Chart as ChartJS, registerables } from "chart.js";

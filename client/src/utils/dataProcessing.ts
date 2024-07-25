@@ -169,10 +169,39 @@ const getLongestStreaks = (videos: Video[]): Streak[] => {
   return streaks;
 };
 
+const getActivityPerDate = (videos: Video[]): DayTimeCount[] => {
+  if (videos.length === 0) return [];
+
+  // Extract dates from videos
+  const dates = videos.map(
+    (video) => new Date(video.time).toISOString().split("T")[0],
+  );
+
+  // Find the first and last dates
+  const sortedDates = dates.sort();
+  const firstDate = new Date(sortedDates[0]);
+  const lastDate = new Date(sortedDates[sortedDates.length - 1]);
+
+  // Generate all dates between firstDate and lastDate
+  const allDates: string[] = [];
+  for (let d = new Date(firstDate); d <= lastDate; d.setDate(d.getDate() + 1)) {
+    allDates.push(new Date(d).toISOString().split("T")[0]);
+  }
+
+  // Count videos for each date
+  const activityPerDate = allDates.map((day) => {
+    const count = dates.filter((date) => date === day).length;
+    return { day, count };
+  });
+
+  return activityPerDate;
+};
+
 export {
   getTopVideos,
   getMostActiveWatchTimes,
   getFavoriteChannels,
   getLongestStreaks,
   getMostActiveDayWatchtimes,
+  getActivityPerDate,
 };

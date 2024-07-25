@@ -49,6 +49,7 @@ interface AnalysisResults {
   topVideos: TopVideos[];
   activeTimes: HourTimeCount[];
   activeDayTimes: DayTimeCount[];
+  totalUsagePerDay: DayTimeCount[];
   favoriteChannels: FavoriteChannels[];
   streaks: Streak[];
 }
