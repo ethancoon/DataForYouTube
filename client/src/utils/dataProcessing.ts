@@ -59,7 +59,7 @@ const getTopVideos = (videos: Video[]) => {
   for (const { title, count } of topVideos) {
     const videoUrl = videos.find((video) => video.title === title)?.titleUrl;
     const videoId = videoUrl?.split("v=")[1];
-    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
     result.push({ title, count, titleUrl: videoUrl, thumbnailUrl });
   }
 

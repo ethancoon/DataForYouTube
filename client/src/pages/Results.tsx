@@ -133,14 +133,10 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 sx={{
                   height: 800,
                   overflowY: "scroll",
-                  padding: 2,
                   width: "60%",
                   minWidth: "350px",
                 }}
               >
-                <Typography variant="h6" gutterBottom>
-                  Top Videos:
-                </Typography>
                 <TopVideos topVideos={analysisResults.topVideos} />
               </Paper>
               <Paper
