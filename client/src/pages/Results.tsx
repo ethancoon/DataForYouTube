@@ -148,22 +148,50 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 }}
               >
                 <TopVideos topVideos={analysisResults.topVideos} />{" "}
+              </Box>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  marginTop: 10,
+                  fontSize: 25,
+                  fontWeight: "bold",
+                  paddingLeft: "22%",
+                }}
+              >
+                Favorite Channels:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 4,
+                  justifyContent: "center",
+                  marginBottom: 10,
+                }}
+              >
                 <Paper
                   sx={{
-                    height: 800,
+                    height: 500,
                     overflowY: "scroll",
                     padding: 2,
-                    width: "60%",
+                    width: "30%",
                     minWidth: "350px",
                   }}
                 >
-                  <Typography variant="h6" gutterBottom>
-                    Top Channels:
-                  </Typography>
                   <TopChannels
                     favoriteChannels={analysisResults.favoriteChannels}
                   />
                 </Paper>
+                <Paper
+                  sx={{
+                    height: 500,
+                    overflowY: "scroll",
+                    padding: 2,
+                    scrollbarWidth: "none",
+                    width: "20%",
+                    minWidth: "350px",
+                  }}
+                ></Paper>
               </Box>
             </Box>
           </Box>

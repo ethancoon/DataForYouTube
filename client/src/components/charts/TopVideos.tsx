@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, Box, Paper } from "@mui/material";
+import { List, ListItem, ListItemText, Box, Paper, Link } from "@mui/material";
 import { type TopVideos } from "../../types";
 
 const TopVideos = ({ topVideos }: { topVideos: TopVideos[] }) => {
@@ -36,14 +36,14 @@ const TopVideos = ({ topVideos }: { topVideos: TopVideos[] }) => {
             <ListItemText
               primary={
                 video.titleUrl ? (
-                  <a href={video.titleUrl} style={{ color: "blue" }}>
+                  <Link href={video.titleUrl} color="primary" underline="hover">
                     {video.title}
-                  </a>
+                  </Link>
                 ) : (
                   video.title
                 )
               }
-              secondary={`(${video.count})`}
+              secondary={`(Watched ${video.count} times)`}
             />
           </ListItem>
         ))}

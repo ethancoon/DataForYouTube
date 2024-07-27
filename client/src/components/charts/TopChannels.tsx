@@ -1,3 +1,11 @@
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Link,
+  Box,
+} from "@mui/material";
 import { type FavoriteChannels } from "../../types";
 
 const TopChannels = ({
@@ -6,19 +14,33 @@ const TopChannels = ({
   favoriteChannels: FavoriteChannels[];
 }) => {
   return (
-    <div>
-      <h4>Favorite Channels:</h4>
-      <ul>
+    <Box>
+      <List>
         {favoriteChannels.map((channel) => (
-          <li key={channel.name}>
-            {channel.channelUrl && (
-              <a href={channel.channelUrl}>{channel.name}</a>
-            )}
-            {!channel.channelUrl && channel.name} ({channel.count})
-          </li>
+          <ListItem
+            key={channel.name}
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            <ListItemText
+              primary={
+                channel.channelUrl ? (
+                  <Link
+                    href={channel.channelUrl}
+                    color="primary"
+                    underline="hover"
+                  >
+                    {channel.name}
+                  </Link>
+                ) : (
+                  <Typography variant="body1">{channel.name}</Typography>
+                )
+              }
+              secondary={`(${channel.count} Videos Watched)`}
+            />
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Box>
   );
 };
 
