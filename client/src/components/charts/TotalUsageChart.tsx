@@ -101,7 +101,7 @@ const TotalUsageChart = ({
         },
         title: {
           display: true,
-          text: "Videos Watched",
+          text: "Videos Watched Per Month",
           color: "white",
           font: {
             size: 16,

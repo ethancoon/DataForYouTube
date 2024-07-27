@@ -125,36 +125,46 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                gap: 4,
-                alignItems: "center",
               }}
             >
-              <Paper
+              <Typography
+                variant="h6"
+                gutterBottom
                 sx={{
-                  height: 800,
-                  overflowY: "scroll",
-                  width: "60%",
-                  minWidth: "350px",
+                  fontSize: 25,
+                  fontWeight: "bold",
+                  paddingLeft: "25%",
                 }}
               >
-                <TopVideos topVideos={analysisResults.topVideos} />
-              </Paper>
-              <Paper
+                Favorite Videos:
+              </Typography>
+              <Box
                 sx={{
-                  height: 800,
-                  overflowY: "scroll",
-                  padding: 2,
-                  width: "60%",
-                  minWidth: "350px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  width: "100%",
+                  alignItems: "center",
                 }}
               >
-                <Typography variant="h6" gutterBottom>
-                  Top Channels:
-                </Typography>
-                <TopChannels
-                  favoriteChannels={analysisResults.favoriteChannels}
-                />
-              </Paper>
+                <TopVideos topVideos={analysisResults.topVideos} />{" "}
+                <Paper
+                  sx={{
+                    height: 800,
+                    overflowY: "scroll",
+                    padding: 2,
+                    width: "60%",
+                    minWidth: "350px",
+                  }}
+                >
+                  <Typography variant="h6" gutterBottom>
+                    Top Channels:
+                  </Typography>
+                  <TopChannels
+                    favoriteChannels={analysisResults.favoriteChannels}
+                  />
+                </Paper>
+              </Box>
             </Box>
           </Box>
         </Box>

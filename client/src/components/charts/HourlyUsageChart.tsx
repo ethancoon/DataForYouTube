@@ -78,7 +78,7 @@ const YouTubeUsageChart = ({ analysisResults }: YouTubeUsageChartProps) => {
         },
         title: {
           display: true,
-          text: "Average Videos Watched",
+          text: "Videos Watched Per Hour",
           color: "white",
           font: {
             size: 20,

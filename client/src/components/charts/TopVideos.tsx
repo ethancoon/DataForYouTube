@@ -1,12 +1,16 @@
-import { List, ListItem, ListItemText, Typography, Box } from "@mui/material";
+import { List, ListItem, ListItemText, Box, Paper } from "@mui/material";
 import { type TopVideos } from "../../types";
 
 const TopVideos = ({ topVideos }: { topVideos: TopVideos[] }) => {
   return (
-    <div>
-      <Typography variant="h6" gutterBottom>
-        Top Videos:
-      </Typography>
+    <Paper
+      sx={{
+        height: 800,
+        overflowY: "scroll",
+        width: "60%",
+        minWidth: "350px",
+      }}
+    >
       <List>
         {topVideos.map((video) => (
           <ListItem key={video.title} sx={{ display: "flex", padding: 0 }}>
@@ -21,16 +25,18 @@ const TopVideos = ({ topVideos }: { topVideos: TopVideos[] }) => {
                 src={video.thumbnailUrl}
                 alt={video.title}
                 sx={{
+                  padding: "10px",
                   width: "100px",
                   height: "100%",
                   objectFit: "cover", // Ensure the image covers the container
+                  borderRadius: "15px",
                 }}
               />
             </Box>
             <ListItemText
               primary={
                 video.titleUrl ? (
-                  <a href={video.titleUrl} style={{ color: "#00FF00" }}>
+                  <a href={video.titleUrl} style={{ color: "blue" }}>
                     {video.title}
                   </a>
                 ) : (
@@ -42,7 +48,7 @@ const TopVideos = ({ topVideos }: { topVideos: TopVideos[] }) => {
           </ListItem>
         ))}
       </List>
-    </div>
+    </Paper>
   );
 };
 
