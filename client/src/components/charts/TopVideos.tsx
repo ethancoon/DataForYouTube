@@ -15,15 +15,14 @@ const TopVideos = ({ topVideos }: { topVideos: TopVideos[] }) => {
             sx={{ display: "flex", alignItems: "center", padding: 0 }}
           >
             <Box
+              className="video-container"
               sx={{
                 position: "relative",
-                overflow: "hidden",
-                background: "black",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
-                height: "100px",
-                width: "200px",
+                width: "300px",
+                height: "150px",
+                overflow: "hidden",
               }}
             >
               <Box
@@ -33,16 +32,25 @@ const TopVideos = ({ topVideos }: { topVideos: TopVideos[] }) => {
                 sx={{
                   width: "100%",
                   height: "100%",
-                  transform: "scale(1.95)",
-                  filter: "contrast(1.2)",
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  maskImage: `
-                    radial-gradient(circle, black 30%, transparent 31%)`,
-                  maskSize: "3px 3px",
-                  WebkitMaskImage: `
-                    radial-gradient(circle, black 30%, transparent 31%)`,
-                  WebkitMaskSize: "1px 3px",
+                  scale: "1.8",
+
+                  objectFit: "cover", // Ensure the image covers the container
+                }}
+              />
+              <Box
+                className="video-overlay"
+                sx={{
+                  position: "absolute",
+                  scale: "1.5",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  background:
+                    "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))",
+                  backgroundSize: "100% 4px, 100% 100%",
+                  zIndex: 1,
+                  transition: "transform 0.1s",
                 }}
               />
               <Box
@@ -53,18 +61,8 @@ const TopVideos = ({ topVideos }: { topVideos: TopVideos[] }) => {
                   width: "100%",
                   height: "100%",
                   background:
-                    "linear-gradient(to left, rgba(30, 30, 30, 1) 0%, rgba(30, 30, 30, 0.8) 25%, rgba(30, 30, 30, 0.8) 50%, rgba(30, 30, 30, 0.5) 75%, rgba(30, 30, 30, 0.2) 100%)", // Exponential fade out effect to semi-transparent white
-                  pointerEvents: "none",
-                }}
-              />
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  boxShadow: "0 0 5px rgba(255, 0, 0, 0.5)",
+                    "radial-gradient(circle, rgba(255, 255, 255, 0) 70%, rgba(0, 0, 0, 1) 100%)",
+                  zIndex: 2,
                 }}
               />
             </Box>
