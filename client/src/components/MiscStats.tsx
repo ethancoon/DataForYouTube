@@ -1,63 +1,113 @@
-// total number of videos watched
-// total number of channels watched
-// first video watched
-// last video watched
-// longest binge of one channel
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Link,
+} from "@mui/material";
+import { type MiscStats } from "./../types";
 
-import { Box, List, ListItem, ListItemText, Typography } from "@mui/material";
-import { type Video, type FavoriteChannels } from "./../types";
+const formatDate = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Date(dateString).toLocaleDateString("en-US", options);
+};
 
-const MiscStats = ({
-  videos,
-  favoriteChannels,
-}: {
-  videos: Video[];
-  favoriteChannels: FavoriteChannels[];
-}) => {
-  const totalVideos = videos.length;
-  const totalChannels = favoriteChannels.length;
-
-  const firstVideo = videos[0];
-  const lastVideo = videos[videos.length - 1];
-
-  const streaks = getLongestStreaks(videos);
-  const longestStreak = streaks.reduce((a, b) => (a.length > b.length ? a : b));
-
-  const binge = getLongestBinge(videos);
-
+const MiscStats = ({ miscStats }: { miscStats: MiscStats }) => {
+  console.log(miscStats);
   return (
     <Box>
-      <Typography variant="h6" gutterBottom>
-        Misc Stats
-      </Typography>
       <List>
         <ListItem>
           <ListItemText
-            primary={`Total Videos Watched: ${totalVideos}`}
-            secondary={`First Video Watched: ${firstVideo.title}`}
+            primary="Total Videos Watched"
+            secondary={miscStats.totalVideos.toString()}
           />
         </ListItem>
         <ListItem>
           <ListItemText
-            primary={`Total Channels Watched: ${totalChannels}`}
-            secondary={`Last Video Watched: ${lastVideo.title}`}
+            primary="Total Channels Watched"
+            secondary={miscStats.totalChannels.toString()}
           />
         </ListItem>
         <ListItem>
           <ListItemText
-            primary={`Longest Streak: ${longestStreak.length} days`}
-            secondary={`From ${longestStreak.start} to ${longestStreak.end}`}
+            primary="Last Video Watched"
+            secondary={
+              miscStats.lastVideo ? (
+                <>
+                  <Link
+                    href={miscStats.lastVideo.titleUrl}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {miscStats.lastVideo.title}
+                  </Link>
+                  {" on " + formatDate(miscStats.lastVideo.time)}
+                </>
+              ) : (
+                "N/A"
+              )
+            }
           />
         </ListItem>
         <ListItem>
           <ListItemText
-            primary={`Longest Binge: ${binge.length} days`}
-            secondary={`From ${binge.start} to ${binge.end}`}
+            primary="First Video Watched"
+            secondary={
+              miscStats.firstVideo ? (
+                <>
+                  <Link
+                    href={miscStats.firstVideo.titleUrl}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {miscStats.firstVideo.title}
+                  </Link>
+                  {" on " + formatDate(miscStats.firstVideo.time)}
+                </>
+              ) : (
+                "N/A"
+              )
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primary="Longest Binge of One Channel"
+            secondary={
+              miscStats.longestBinge && miscStats.longestBinge.channel ? (
+                <>
+                  <Link
+                    href={miscStats.longestBinge.channelUrl}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {miscStats.longestBinge.channel}
+                  </Link>
+                  {" for " + miscStats.longestBinge.length + " videos"}
+                  {" " +
+                    (formatDate(miscStats.longestBinge.start) ===
+                    formatDate(miscStats.longestBinge.end)
+                      ? "on " + formatDate(miscStats.longestBinge.start)
+                      : "from " +
+                        formatDate(miscStats.longestBinge.start) +
+                        " to " +
+                        formatDate(miscStats.longestBinge.end))}
+                </>
+              ) : (
+                "N/A"
+              )
+            }
           />
         </ListItem>
       </List>
     </Box>
   );
-}
+};
 
 export default MiscStats;

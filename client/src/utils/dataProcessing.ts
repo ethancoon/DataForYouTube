@@ -4,6 +4,8 @@ import {
   ChannelCount,
   Streak,
   DayTimeCount,
+  MiscStats,
+  Binge,
 } from "../types";
 
 const getMostActiveDayWatchtimes = (videos: Video[]): DayTimeCount[] => {
@@ -197,6 +199,100 @@ const getActivityPerDate = (videos: Video[]): DayTimeCount[] => {
   return activityPerDate;
 };
 
+const getLongestBinge = (videos: Video[]): Binge => {
+  if (videos.length === 0) {
+    return {
+      start: "",
+      end: "",
+      length: 0,
+      videos: [],
+      channel: "",
+      channelUrl: "",
+    };
+  }
+
+  let longestBinge: Binge = {
+    start: "",
+    end: "",
+    length: 0,
+    videos: [],
+    channel: "",
+    channelUrl: "",
+  };
+
+  let currentBinge: Binge = {
+    start: "",
+    end: "",
+    length: 0,
+    videos: [],
+    channel: "",
+    channelUrl: "",
+  };
+
+  for (let i = 0; i < videos.length; i++) {
+    const video = videos[i];
+
+    if (currentBinge.videos.length === 0) {
+      currentBinge = {
+        start: video.time,
+        end: video.time,
+        length: 1,
+        videos: [video],
+        channel: video.subtitles?.[0]?.name || "",
+        channelUrl: video.subtitles?.[0]?.url || "",
+      };
+    } else if (currentBinge.channel === (video.subtitles?.[0]?.name || "")) {
+      currentBinge.end = video.time;
+      currentBinge.length++;
+      currentBinge.videos.push(video);
+    } else {
+      if (currentBinge.length > longestBinge.length) {
+        longestBinge = { ...currentBinge };
+      }
+      currentBinge = {
+        start: video.time,
+        end: video.time,
+        length: 1,
+        videos: [video],
+        channel: video.subtitles?.[0]?.name || "",
+        channelUrl: video.subtitles?.[0]?.url || "",
+      };
+    }
+  }
+
+  if (currentBinge.length > longestBinge.length) {
+    longestBinge = { ...currentBinge };
+  }
+
+  return longestBinge;
+};
+
+const getMiscStats = (videos: Video[]): MiscStats => {
+  const totalVideos = videos.length;
+  const totalChannels = new Set(
+    videos
+      .map(
+        (video) =>
+          video.subtitles && video.subtitles[0] && video.subtitles[0].name,
+      )
+      .filter((name) => name), // Filter out undefined names
+  ).size;
+
+  const lastVideo = videos[0];
+  const firstVideo = videos[videos.length - 1];
+
+  // longest consecutive
+  const binge = getLongestBinge(videos);
+
+  return {
+    totalVideos,
+    totalChannels,
+    firstVideo,
+    lastVideo,
+    longestBinge: binge,
+  };
+};
+
 export {
   getTopVideos,
   getMostActiveWatchTimes,
@@ -204,4 +300,5 @@ export {
   getLongestStreaks,
   getMostActiveDayWatchtimes,
   getActivityPerDate,
+  getMiscStats,
 };

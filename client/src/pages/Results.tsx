@@ -12,8 +12,10 @@ import {
   getLongestStreaks,
   getMostActiveDayWatchtimes,
   getActivityPerDate,
+  getMiscStats,
 } from "../utils/dataProcessing";
-import { Box, Typography, Paper } from "@mui/material";
+import { Box, Typography, Paper, Grid } from "@mui/material";
+import MiscStats from "../components/MiscStats";
 
 interface ResultsProps {
   fileContent: Video[] | null;
@@ -38,6 +40,8 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
     const totalUsagePerDay = getActivityPerDate(videos);
     const favoriteChannels = getFavoriteChannels(videos);
     const streaks = getLongestStreaks(videos);
+    const miscStats = getMiscStats(videos);
+    console.log(miscStats);
 
     setAnalysisResults({
       topVideos,
@@ -46,6 +50,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
       totalUsagePerDay,
       favoriteChannels,
       streaks,
+      miscStats,
     });
   };
 
@@ -149,49 +154,87 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
               >
                 <TopVideos topVideos={analysisResults.topVideos} />{" "}
               </Box>
-              <Typography
-                variant="h6"
-                gutterBottom
-                sx={{
-                  marginTop: 10,
-                  fontSize: 25,
-                  fontWeight: "bold",
-                  paddingLeft: "22%",
-                }}
-              >
-                Favorite Channels:
-              </Typography>
               <Box
                 sx={{
                   display: "flex",
-                  gap: 4,
                   justifyContent: "center",
+                  alignItems: "flex-start",
+                  gap: 4,
                   marginBottom: 10,
+                  marginTop: 10,
+                  flexWrap: "wrap",
                 }}
               >
-                <Paper
+                <Box
                   sx={{
-                    height: 500,
-                    overflowY: "scroll",
-                    padding: 2,
-                    width: "30%",
-                    minWidth: "350px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    marginBottom: 4,
                   }}
                 >
-                  <TopChannels
-                    favoriteChannels={analysisResults.favoriteChannels}
-                  />
-                </Paper>
-                <Paper
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{
+                      fontSize: 25,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    Top Channels:
+                  </Typography>
+                  <Paper
+                    sx={{
+                      height: 500,
+                      maxHeight: 500,
+                      overflowY: "scroll",
+                      padding: 2,
+                      minWidth: "350px",
+                      maxWidth: "350px",
+                      flex: 1,
+                    }}
+                  >
+                    <TopChannels
+                      favoriteChannels={analysisResults.favoriteChannels}
+                    />
+                  </Paper>
+                </Box>
+                <Box
                   sx={{
-                    height: 500,
-                    overflowY: "scroll",
-                    padding: 2,
-                    scrollbarWidth: "none",
-                    width: "20%",
-                    minWidth: "350px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    marginBottom: 4,
                   }}
-                ></Paper>
+                >
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{
+                      fontSize: 25,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    Misc Stats:
+                  </Typography>
+                  <Paper
+                    sx={{
+                      height: 500,
+                      minHeight: 500,
+                      maxHeight: 500,
+                      overflowY: "scroll",
+                      padding: 2,
+                      scrollbarWidth: "none",
+                      minWidth: "350px",
+                      maxWidth: "350px",
+                      flex: 1,
+                    }}
+                  >
+                    <MiscStats miscStats={analysisResults.miscStats} />
+                  </Paper>
+                </Box>
               </Box>
             </Box>
           </Box>

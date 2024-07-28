@@ -35,6 +35,15 @@ interface Streak {
   length: number; // The length of the streak in days
 }
 
+interface Binge {
+  start: string; // The start date of the binge in ISO format (YYYY-MM-DD)
+  end: string; // The end date of the binge in ISO format (YYYY-MM-DD)
+  length: number; // The length of the binge in days
+  videos: Video[];
+  channel: string;
+  channelUrl: string;
+}
+
 interface Video {
   header: string;
   title: string;
@@ -45,6 +54,14 @@ interface Video {
   activityControls: string[];
 }
 
+interface MiscStats {
+  totalVideos: number;
+  totalChannels: number;
+  firstVideo: Video;
+  lastVideo: Video;
+  longestBinge: Binge;
+}
+
 interface AnalysisResults {
   topVideos: TopVideos[];
   activeTimes: HourTimeCount[];
@@ -52,6 +69,7 @@ interface AnalysisResults {
   totalUsagePerDay: DayTimeCount[];
   favoriteChannels: FavoriteChannels[];
   streaks: Streak[];
+  miscStats: MiscStats;
 }
 
 export type {
@@ -63,4 +81,6 @@ export type {
   Video,
   AnalysisResults,
   DayTimeCount,
+  MiscStats,
+  Binge,
 };
