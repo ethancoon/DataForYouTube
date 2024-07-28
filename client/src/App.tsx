@@ -1,25 +1,38 @@
 import { useState } from "react";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Video } from "./types";
 import Results from "./pages/Results";
 import Upload from "./pages/Upload";
-import Links from "./pages/Links";
 import Faq from "./pages/FAQ";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { Box } from "@mui/material";
 
 const App = () => {
   const [fileContent, setFileContent] = useState<Video[] | null>(null);
 
   return (
-    <div>
-      <Navbar />
-      <Upload setFileContent={setFileContent} />
-      <Results fileContent={fileContent} />
-      <Faq />
-      <Links />
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
+      <Box component="header">
+        <Navbar />
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+        }}
+      >
+        <Upload setFileContent={setFileContent} />
+        <Results fileContent={fileContent} />
+        <Faq />
+      </Box>
       <Footer />
-    </div>
+    </Box>
   );
 };
 

@@ -1,4 +1,6 @@
-import { Box, Container, Typography, Link } from "@mui/material";
+import { Box, Container, Typography, Link, IconButton } from "@mui/material";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 const Footer = () => {
   return (
@@ -13,14 +15,9 @@ const Footer = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Typography variant="body1" align="center" gutterBottom>
-          © {new Date().getFullYear()} Data for YouTube. All rights reserved.
-        </Typography>
         <Typography variant="body2" color="text.secondary" align="center">
-          Contact us at{" "}
-          <Link href="mailto:contact@dataforyoutube.com">
-            contact@dataforyoutube.com
-          </Link>
+          Contact me at{" "}
+          <Link href="mailto:eethanccoon@gmail.com">eethanccoon@gmail.com</Link>
         </Typography>
         <Typography
           variant="body2"
@@ -28,11 +25,16 @@ const Footer = () => {
           align="center"
           sx={{ mt: 2 }}
         >
-          Follow us on
-          <Link href="https://twitter.com/yourtwitterhandle" sx={{ mx: 1 }}>
-            Twitter
-          </Link>
-          <Link href="https://facebook.com/yourfacebookpage">Facebook</Link>
+          <IconButton
+            component="a"
+            href="https://www.linkedin.com/in/ethan-coon-569357240/"
+            sx={{ mx: 1 }}
+          >
+            <LinkedInIcon />
+          </IconButton>
+          <IconButton component="a" href="https://github.com/ethancoon">
+            <GitHubIcon />
+          </IconButton>
         </Typography>
       </Container>
     </Box>

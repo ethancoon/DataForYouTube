@@ -14,7 +14,7 @@ import {
   getActivityPerDate,
   getMiscStats,
 } from "../utils/dataProcessing";
-import { Box, Typography, Paper, Grid } from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
 import MiscStats from "../components/MiscStats";
 
 interface ResultsProps {

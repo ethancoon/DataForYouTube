@@ -1,11 +1,4 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-  Link,
-} from "@mui/material";
+import { Box, List, ListItem, ListItemText, Link } from "@mui/material";
 import { type MiscStats } from "./../types";
 
 const formatDate = (dateString: string) => {
