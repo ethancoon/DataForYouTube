@@ -7,16 +7,16 @@ import LinkIcon from "@mui/icons-material/Link";
 
 const Navbar: React.FC = () => {
   const menuItems = [
-    { text: "Upload", link: "/", image: "FileUploadIcon" },
+    { text: "Upload", link: "", image: "FileUploadIcon" },
     {
       text: "Results",
-      link: "/results",
+      link: "results-section",
       image: "PieChartIcon",
     },
-    { text: "FAQ", link: "/faq", image: "QuizIcon" },
+    { text: "FAQ", link: "faq-section", image: "QuizIcon" },
     {
-      text: "Contact",
-      link: "/contact",
+      text: "Links",
+      link: "links-section",
       image: "LinkIcon",
     },
   ];
@@ -46,67 +46,75 @@ const Navbar: React.FC = () => {
   return (
     <Box
       sx={{
-        position: "fixed",
-        top: 0,
-        width: "30%",
-        left: "50%",
-        transform: "translateX(-50%)",
-        minWidth: 300,
-        zIndex: 1000,
         display: "flex",
-        justifyContent: "center",
-        bgcolor: "#FF0000",
-        borderRadius: 3,
-        boxShadow: 3,
-        mt: 2,
-        pl: 2,
-        pr: 2,
-        pt: 1,
-        pb: 1,
+        width: "100%",
       }}
     >
-      {menuItems.map((item) => (
-        <Button
-          key={item.text}
-          sx={{
-            textTransform: "none",
-            color: "text.primary",
-            fontWeight: "bold",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "relative",
-            padding: 0,
-            width: 96,
-            height: 78,
-            "&:hover": {
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          width: "30%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          minWidth: 300,
+          zIndex: 1000,
+          display: "flex",
+          justifyContent: "center",
+          bgcolor: "#FF0000",
+          borderRadius: 3,
+          boxShadow: 3,
+          mt: 2,
+          pl: 2,
+          pr: 2,
+          pt: 1,
+          pb: 1,
+        }}
+      >
+        {menuItems.map((item) => (
+          <Button
+            key={item.text}
+            href={`#${item.link}`}
+            sx={{
+              textTransform: "none",
+              color: "text.primary",
+              fontWeight: "bold",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+              padding: 0,
+              width: 96,
+              height: 78,
+              "&:hover": {
+                "& .text": {
+                  opacity: 1,
+                },
+                "& .avatar": {
+                  transform: "translateY(-6px)",
+                  width: 30,
+                  height: 30,
+                },
+              },
               "& .text": {
-                opacity: 1,
+                opacity: 0,
+                transition: "opacity 0.3s",
+                fontSize: "0.75rem",
               },
               "& .avatar": {
-                transform: "translateY(-6px)",
-                width: 30,
-                height: 30,
+                marginTop: 2,
+                width: 40,
+                height: 40,
+                transition: "transform 0.3s, width 0.3s, height 0.3s",
               },
-            },
-            "& .text": {
-              opacity: 0,
-              transition: "opacity 0.3s",
-              fontSize: "0.75rem",
-            },
-            "& .avatar": {
-              marginTop: 2,
-              width: 40,
-              height: 40,
-              transition: "transform 0.3s, width 0.3s, height 0.3s",
-            },
-          }}
-        >
-          {getIcon(item.image)}
-          <span className="text">{item.text}</span>
-        </Button>
-      ))}
+            }}
+          >
+            {getIcon(item.image)}
+            <span className="text">{item.text}</span>
+          </Button>
+        ))}
+      </Box>
     </Box>
   );
 };

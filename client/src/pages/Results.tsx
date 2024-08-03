@@ -54,7 +54,7 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
   };
 
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box id="results-section" sx={{ padding: 4 }}>
       {analysisResults && (
         <Box>
           <Box

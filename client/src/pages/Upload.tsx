@@ -34,6 +34,7 @@ const Upload: React.FC<FileUploadProps> = ({ setFileContent }) => {
 
   return (
     <Box
+      id="upload-section"
       sx={{
         width: "100%",
         maxWidth: 500,

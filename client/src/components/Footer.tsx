@@ -5,6 +5,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 const Footer = () => {
   return (
     <Box
+      id="links-section"
       component="footer"
       sx={{
         bgcolor: "background.paper",
