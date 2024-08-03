@@ -1,43 +1,16 @@
 import React, { useState } from "react";
 import {
-  Container,
-  Typography,
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Container,
+  Typography,
+  Link,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Faq = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
-
-  const faqData = [
-    {
-      question: "What is DataForYouTube?",
-      answer:
-        "DataForYouTube is a web application that analyzes your YouTube watch history and provides insights.",
-    },
-    {
-      question: "How do I upload my YouTube watch history?",
-      answer:
-        "You can upload your YouTube watch history JSON file by navigating to the upload page and selecting the file from your device.",
-    },
-    {
-      question: "Is my data stored on your servers?",
-      answer:
-        "No, your data is processed entirely in your browser and is not stored on our servers.",
-    },
-    {
-      question: "Can I see my favorite channels and most-watched videos?",
-      answer:
-        "Yes, DataForYouTube provides insights into your favorite channels and most-watched videos based on your watch history.",
-    },
-    {
-      question: "How can I get the YouTube watch history JSON file?",
-      answer:
-        "You can download your YouTube watch history JSON file using Google Takeout. Visit takeout.google.com, select YouTube, and choose the JSON format for your watch history.",
-    },
-  ];
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
@@ -49,7 +22,54 @@ const Faq = () => {
       <Typography variant="h4" gutterBottom align="center">
         FAQ
       </Typography>
-      {faqData.map((faq, index) => (
+      {[
+        {
+          question: "What is DataForYouTube?",
+          answer:
+            "DataForYouTube is a web application that analyzes your YouTube watch history and provides insights.",
+        },
+        {
+          question: "How can I get the YouTube watch history JSON file?",
+          answer: (
+            <React.Fragment>
+              You can download your YouTube watch history JSON file using{" "}
+              <Link
+                href="https://takeout.google.com"
+                target="_blank"
+                rel="noopener"
+              >
+                Google Takeout
+              </Link>
+              . Deselect all, scroll to the bottom, select YouTube, and choose
+              the JSON format for your watch history under{" "}
+              <span style={{ color: "red" }}>Multiple formats</span>.
+              <br />
+              <br />
+              You will also want to click on{" "}
+              <span style={{ color: "red" }}>
+                All YouTube data included
+              </span>{" "}
+              and disable all but <span style={{ color: "red" }}>history</span>{" "}
+              to reduce the size of the file. After downloading the file,
+              extract the zip and upload the JSON.
+              <br />
+              <br />
+              Note that while the website is not built for it, if you submit
+              your search history JSON file, it will still show some data such
+              as most searched terms.
+            </React.Fragment>
+          ),
+        },
+        {
+          question: "Is my data stored on your servers?",
+          answer: "No, your data is processed entirely in your browser.",
+        },
+        {
+          question: "What can I actually see after giving my watch history?",
+          answer:
+            "Your favorite channels, most watched videos, most active times, and more!",
+        },
+      ].map((faq, index) => (
         <Accordion
           key={index}
           expanded={expanded === `panel${index}`}
@@ -57,8 +77,8 @@ const Faq = () => {
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls={`panel${index}-content`}
-            id={`panel${index}-header`}
+            aria-controls={`panel${index}bh-content`}
+            id={`panel${index}bh-header`}
           >
             <Typography>{faq.question}</Typography>
           </AccordionSummary>
