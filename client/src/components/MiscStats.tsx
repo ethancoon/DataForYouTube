@@ -11,7 +11,6 @@ const formatDate = (dateString: string) => {
 };
 
 const MiscStats = ({ miscStats }: { miscStats: MiscStats }) => {
-  console.log(miscStats);
   return (
     <Box>
       <List>

@@ -12,13 +12,10 @@ const formatDate = (dateString: string) => {
 
 const CurrentStreak = ({ streaks }: { streaks: Streak[] }) => {
   // the streak most recently started
-  console.log(streaks);
   const currentStreak = streaks[0];
   const longestStreak = streaks.reduce((acc, streak) =>
     acc.length > streak.length ? acc : streak,
   );
-  console.log(currentStreak);
-  console.log(longestStreak);
 
   const formattedCurrentStart = formatDate(currentStreak.start);
   const formattedCurrentEnd = formatDate(currentStreak.end);

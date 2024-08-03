@@ -41,7 +41,6 @@ const Results: React.FC<ResultsProps> = ({ fileContent }: ResultsProps) => {
     const favoriteChannels = getFavoriteChannels(videos);
     const streaks = getLongestStreaks(videos);
     const miscStats = getMiscStats(videos);
-    console.log(miscStats);
 
     setAnalysisResults({
       topVideos,
