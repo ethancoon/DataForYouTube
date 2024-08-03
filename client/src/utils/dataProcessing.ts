@@ -43,6 +43,10 @@ const getTopVideos = (videos: Video[]) => {
   const result = [];
 
   for (const video of videos) {
+    if (video.title.startsWith("Watched")) {
+      video.title = video.title.slice(7);
+    }
+
     if (videoCounts[video.title]) {
       videoCounts[video.title]++;
     } else {
