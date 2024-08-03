@@ -55,8 +55,7 @@ const Faq = () => {
               <br />
               <br />
               Note that while the website is not built for it, if you submit
-              your search history JSON file, it will still show some data such
-              as most searched terms.
+              your search history JSON file, it will still work.
             </React.Fragment>
           ),
         },
