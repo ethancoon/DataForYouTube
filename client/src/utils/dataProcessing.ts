@@ -74,7 +74,7 @@ const getTopVideos = (videos: Video[]) => {
 
 const getMostActiveWatchTimes = (videos: Video[]) => {
   const hours = new Array(24).fill(0);
-  const days = new Set();
+  const days = new Set<string>();
 
   videos.forEach((video) => {
     const date = new Date(video.time);
@@ -82,9 +82,15 @@ const getMostActiveWatchTimes = (videos: Video[]) => {
     const day = date.toISOString().slice(0, 10); // Get the date in 'YYYY-MM-DD' format
     days.add(day);
     hours[hour]++;
+    console.log(
+      `Processed video at ${date.toISOString()} (hour: ${hour}, day: ${day})`,
+    );
   });
 
   const totalDays = days.size || 1; // Avoid division by zero
+
+  console.log(`Total days: ${totalDays}`);
+  console.log(`Hours array: ${JSON.stringify(hours)}`);
 
   return hours.map((cumulative, hour) => ({
     hour,

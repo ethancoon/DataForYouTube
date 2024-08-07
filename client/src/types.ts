@@ -80,6 +80,7 @@ export type {
   Streak,
   Video,
   AnalysisResults,
+  HourTimeCount,
   DayTimeCount,
   MiscStats,
   Binge,
